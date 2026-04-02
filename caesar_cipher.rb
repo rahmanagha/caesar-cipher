@@ -19,7 +19,7 @@ def caesar_cipher(string, key)
   end
   effective_key = key.remainder(26)
   string.each_char do |character|
-    if character.upcase != character.downcase # Check if character is alphabetic
+    if character.ord.between?(65, 90) || character.ord.between?(97, 122) # Check if character is alphabetic
       if character == character.upcase # Check if character is uppercased
         result << shift_letter(character.ord,effective_key,:upper)
       else
