@@ -54,4 +54,33 @@ describe 'caesar_cipher' do
       end
     end
   end
+  describe 'shift_letter' do
+    context 'with a lowercase letter' do
+      it 'shifts forward within the alphabet' do
+        expect(shift_letter('a', 1)).to eq('b')
+      end
+      it 'wraps around from z to a' do
+        expect(shift_letter('z', 1)).to eq('a')
+      end
+      it 'handles the negative shifts' do
+        expect(shift_letter('c', -1)).to eq('b')
+      end
+    end
+    context 'with an uppercase letter' do
+      it 'shifts forward and preserves case' do
+        expect(shift_letter('A', 1)).to eq('B')
+      end
+      it 'wraps around from Z to A' do
+        expect(shift_letter('Z', 1)).to eq('A')
+      end
+      it 'handles the negative shifts and preserves case' do
+        expect(shift_letter('C', -1)).to eq('B')
+      end
+    end
+    context 'with a zero key' do
+      it 'returns same letter unchanged' do
+        expect(shift_letter('a', 0)).to eq('a')
+      end
+    end
+  end
 end
