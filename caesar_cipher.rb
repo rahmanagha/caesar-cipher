@@ -24,7 +24,7 @@ def uppercase?(character)
 end
 
 def alphabetic?(character)
-  return false unless character.is_a(String)
+  return false unless character.is_a?(String)
 
   character.ord.between?(65, 90) || character.ord.between?(97, 122)
 end
