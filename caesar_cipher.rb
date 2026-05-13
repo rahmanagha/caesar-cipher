@@ -1,33 +1,43 @@
-def shift_letter(character_code, key, mode)
-  sum = character_code + key
-  lower_bound = mode == :upper ? "A".ord : "a".ord
-  upper_bound = mode == :upper ? "Z".ord : "z".ord
-  if sum > upper_bound
-    (sum - upper_bound + lower_bound - 1).chr
-  elsif sum < lower_bound
-    (sum - lower_bound + upper_bound + 1).chr
-  else
-    sum.chr
-  end
+def shift_letter(character, key)
+  sum = character.downcase.ord + key
+  result = if sum > 'z'.ord
+             (sum - 'z'.ord + 'a'.ord - 1).chr
+           elsif sum < 'a'.ord
+             (sum - 'a'.ord + 'z'.ord + 1).chr
+           else
+             sum.chr
+           end
+  return result.upcase if uppercase?(character)
+
+  result
 end
 
-def caesar_cipher(string, key) 
-  result = ""
-  unless string.is_a?(String) && key.is_a?(Integer)
-    puts "Wrong input!"
-    return
-  end
+def valid_inputs?(string, key)
+  return true if string.is_a?(String) && key.is_a?(Integer)
+
+  puts 'Wrong input!'
+  false
+end
+
+def uppercase?(character)
+  character == character.upcase
+end
+
+def alphabetic?(character)
+  character.ord.between?(65, 90) || character.ord.between?(97, 122)
+end
+
+def caesar_cipher(string, key)
+  result = ''
+  return unless valid_inputs?(string, key)
+
   effective_key = key.remainder(26)
   string.each_char do |character|
-    if character.ord.between?(65, 90) || character.ord.between?(97, 122) # Check if character is alphabetic
-      if character == character.upcase # Check if character is uppercased
-        result << shift_letter(character.ord,effective_key,:upper)
-      else
-        result << shift_letter(character.ord,effective_key,:lower)
-      end
-    else
-      result << character
-    end
+    result << if alphabetic?(character)
+                shift_letter(character, effective_key)
+              else
+                character
+              end
   end
   result
 end
