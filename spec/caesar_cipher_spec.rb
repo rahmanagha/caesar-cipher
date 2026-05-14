@@ -83,4 +83,45 @@ describe 'caesar_cipher' do
       end
     end
   end
+  describe 'caesar_cipher' do
+    before do
+      allow($stdout).to receive(:puts)
+    end
+    context 'with invalid string or key' do
+      it 'returns nil' do
+        expect(caesar_cipher(5, 'hi')).to be_nil
+      end
+    end
+    context 'with valid string and key' do
+      it 'returns the encrypted string' do
+        expect(caesar_cipher('I love you', 5)).to eq('N qtaj dtz')
+      end
+    end
+    context 'with valid string and very large key' do
+      it 'still returns correct encrypted string' do
+        expect(caesar_cipher('This is cute', 2555)).to eq('Aopz pz jbal')
+      end
+    end
+    context 'when string contains non-alphabetic characters' do
+      it 'only alphabetic characters are encrypted' do
+        expect(caesar_cipher('I will buy apple, strawberry and banana!',
+                             19)).to eq('B pbee unr tiiex, lmktpuxkkr tgw utgtgt!')
+      end
+    end
+    context 'with an empty string' do
+      it 'returns empty string' do
+        expect(caesar_cipher('', 20)).to eq('')
+      end
+    end
+    context 'with a negative key' do
+      it 'returns negatively shifted string' do
+        expect(caesar_cipher('I am here!', -79)).to eq('H zl gdqd!')
+      end
+    end
+    context 'when the key is a multiple of 26' do
+      it 'returns the original string unchanged' do
+        expect(caesar_cipher('Unchanged', 234)).to eq('Unchanged')
+      end
+    end
+  end
 end
